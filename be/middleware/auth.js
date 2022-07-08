@@ -1,21 +1,25 @@
 import jwt from "jsonwebtoken";
 
+const secret = "test";
+
 const auth = async (req, res, next) => {
   try {
-    // console.log(req.headers.authorization);
-    // const token = req.headers.authorization.split(" ")[1];
-    // const isCustomAuth = token.lenght < 500;
-    // let decodedData;
+    const token = req.headers.authorization.split(" ")[1];
 
-    // if (token && isCustomAuth) {
-    //   decodedData = jwt.verify(token, "test");
+    const isCustomAuth = token.length < 500;
+    let decodedData;
 
-    //   req.userId = decodedData?.id;
-    // } else {
-    //   decodedData = jwt.decode(token);
+    if (token && isCustomAuth) {
+      decodedData = jwt.verify(token, secret);
 
-    //   req.userId = decodedData?.sub;
-    // }
+      req.userId = decodedData?.id;
+    } else {
+      console.log("token", token);
+      decodedData = jwt.decode(token);
+      console.log("data", decodedData);
+
+      req.userId = decodedData?.sub;
+    }
 
     next();
   } catch (error) {

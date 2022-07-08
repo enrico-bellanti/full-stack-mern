@@ -42,8 +42,10 @@ const Auth = () => {
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
       const token = tokenResponse.access_token;
       const { data: result } = await googleUserInfo(token);
+      console.log(result);
 
       try {
         dispatch({ type: AUTH, data: { result, token } });
@@ -121,6 +123,7 @@ const Auth = () => {
               />
             )}
           </Grid>
+
           <Button
             type="submit"
             fullWidth
@@ -130,6 +133,7 @@ const Auth = () => {
           >
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
+
           <Button
             className={classes.googleButton}
             color="primary"
