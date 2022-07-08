@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { googleUserInfo } from "../../api/index";
-import { AUTH } from "../../constants/actionTypes";
 import {
   Avatar,
   Button,
@@ -16,10 +14,7 @@ import { useNavigate } from "react-router-dom";
 import useStyles from "./styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
-import Icon from "./icon";
 import { signin, signup } from "../../actions/auth";
-
-import { useGoogleLogin } from "@react-oauth/google";
 
 const initialState = {
   firstName: "",
@@ -37,25 +32,6 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState(initialState);
-
-  //  GOOGLE
-
-  const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
-      const token = tokenResponse.access_token;
-      const { data: result } = await googleUserInfo(token);
-      console.log(result);
-
-      try {
-        dispatch({ type: AUTH, data: { result, token } });
-        navigate("/");
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    onError: (errorResponse) => console.log(errorResponse),
-  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -132,17 +108,6 @@ const Auth = () => {
             className={classes.submit}
           >
             {isSignup ? "Sign Up" : "Sign In"}
-          </Button>
-
-          <Button
-            className={classes.googleButton}
-            color="primary"
-            fullWidth
-            onClick={() => login()}
-            startIcon={<Icon />}
-            variant="contained"
-          >
-            Google Sign In
           </Button>
 
           <Grid container justifyContent="flex-end">

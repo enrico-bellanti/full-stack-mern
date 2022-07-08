@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 
 import User from "../models/user.js";
 
+const secret = "test";
+
 export const signin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -19,10 +21,10 @@ export const signin = async (req, res) => {
 
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid Credentials." });
-
+    console.log(secret);
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      "test",
+      secret,
       { expiresIn: "1h" }
     );
 
@@ -52,7 +54,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign({ email: result.email, id: result._id }, "test", {
+    const token = jwt.sign({ email: result.email, id: result._id }, secret, {
       expiresIn: "1h",
     });
 

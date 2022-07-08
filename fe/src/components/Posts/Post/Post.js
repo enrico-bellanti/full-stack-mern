@@ -25,9 +25,7 @@ const Post = ({ post, setCurrentId }) => {
 
   const Likes = () => {
     if (post.likes.length > 0) {
-      return post.likes.find(
-        (like) => like === (user?.result?.googleId || user?.result?._id)
-      ) ? (
+      return post.likes.find((like) => like === user?.result?._id) ? (
         <>
           <ThumbUpAltIcon fontSize="small" />
           &nbsp;
@@ -64,8 +62,7 @@ const Post = ({ post, setCurrentId }) => {
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      {(user?.result?.googleId === post?.creator ||
-        user?.result?._id === post?.creator) && (
+      {user?.result?._id === post?.creator && (
         <div className={classes.overlay2}>
           <Button
             onClick={() => setCurrentId(post._id)}
@@ -103,8 +100,7 @@ const Post = ({ post, setCurrentId }) => {
         >
           <Likes />
         </Button>
-        {(user?.result?.googleId === post?.creator ||
-          user?.result?._id === post?.creator) && (
+        {user?.result?._id === post?.creator && (
           <Button
             size="small"
             color="secondary"
