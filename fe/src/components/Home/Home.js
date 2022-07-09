@@ -109,9 +109,11 @@ export const Home = () => {
               </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
-            <Paper className={classes.pagination} elevation={6}>
-              <Pagination page={page} />
-            </Paper>
+            {!searchQuery && !tags.length ? (
+              <Paper className={classes.pagination} elevation={6}>
+                <Pagination page={page} />
+              </Paper>
+            ) : null}
           </Grid>
         </Grid>
       </Container>
