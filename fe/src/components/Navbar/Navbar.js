@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import decode from "jwt-decode";
 
-import memories from "../../images/memories.png";
+import logo from "../../images/memories-Logo.png";
 import * as actionType from "../../constants/actionTypes";
 import useStyles from "./styles";
 
@@ -23,36 +23,33 @@ const Navbar = () => {
     setUser(null);
   };
 
-  useEffect(
-    (logout, user) => {
-      const token = user?.token;
+  useEffect(() => {
+    const token = user?.token;
 
-      if (token) {
-        const decodedToken = decode(token);
+    if (token) {
+      const decodedToken = decode(token);
 
-        if (decodedToken.exp * 1000 < new Date().getTime()) {
-          logout();
-        }
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        logout();
       }
+    }
 
-      setUser(JSON.parse(localStorage.getItem("profile")));
-    },
-    [location]
-  );
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
+        <img className={classes.image} src={logo} alt="icon" height="60" />
         <Typography
           component={Link}
           to="/"
           className={classes.heading}
-          variant="h2"
+          variant="h5"
           align="center"
         >
-          Blog
+          Personal Space
         </Typography>
-        <img className={classes.image} src={memories} alt="icon" height="60" />
       </div>
       <Toolbar className={classes.toolbar}>
         {user?.result ? (
